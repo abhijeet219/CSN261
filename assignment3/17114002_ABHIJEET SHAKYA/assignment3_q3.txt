@@ -1,0 +1,109 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+#include<iostream>
+using namespace std;
+ 
+struct Node
+{
+    int data;
+    struct Node* next;
+    Node (int data)
+    {
+        this->data = data;
+        next = NULL;
+    }
+};
+
+void recursiveReverse(struct Node** head_ref)
+{
+    struct Node* first;
+    struct Node* rest;
+      
+    if (*head_ref == NULL)
+       return;   
+ 
+    first = *head_ref;  
+    rest  = first->next;
+ 
+    if (rest == NULL)
+       return;   
+ 
+    recursiveReverse(&rest);
+    first->next->next  = first;  
+     
+    first->next  = NULL;          
+ 
+    *head_ref = rest;              
+}
+ 
+struct LinkedList
+{
+    Node *head;
+    LinkedList()
+    {
+        head = NULL;
+    }
+ 
+ 
+    void reverse()
+    {
+        // Initialize current, previous and
+        // next pointers
+        Node *current = head;
+        Node *prev = NULL, *next = NULL;
+ 
+ 
+        while (current != NULL)
+        {
+            // Store next
+            next = current->next;
+ 
+            // Reverse current node's pointer
+            current->next = prev;
+ 
+            // Move pointers one position ahead.
+            prev = current;
+            current = next;
+        }
+        head = prev;
+    }
+
+    void print()
+    {
+        struct Node *temp = head;
+        while (temp != NULL)
+        {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+    }
+ 
+    void push(int data)
+    {
+        Node *temp = new Node(data);
+        temp->next = head;
+        head = temp;
+    }
+};
+ 
+int main()
+{
+    /* Start with the empty list */
+    LinkedList ll;
+    ll.push(10);
+    ll.push(20);
+    ll.push(30);
+    ll.push(40);
+    ll.push(50);
+    ll.push(60);
+    ll.push(70);
+ 
+    cout << "Given linked list\n";
+    ll.print();
+ 
+    ll.reverse();
+    recursiveReverse(&ll.head);
+ 
+    cout << "\nReversed Linked list \n";
+    ll.print();
+    return 0;
+}

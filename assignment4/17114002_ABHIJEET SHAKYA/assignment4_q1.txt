@@ -1,0 +1,72 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+#include <iostream>
+using namespace std;
+
+struct node{
+	int value;
+	node* next;
+};
+
+void push(struct node**head_ref, int value){
+	node* temp = new node;
+	temp->value=value;
+	temp->next=*head_ref;
+	*head_ref=temp;
+}
+
+void display(struct node*head_ref){
+	while(head_ref!=NULL){
+		cout<<head_ref->value<<" ";
+		head_ref=head_ref->next;
+	}
+}
+
+
+//alternate spliting function
+
+void AlternatingSplit(struct node* head){
+	struct node* h1=NULL;
+	struct node* h2=NULL;
+	int i=0;
+	while(head!=NULL){
+		if(i%2==0){
+			push(&h1,head->value);
+		}else{
+			push(&h2,head->value);
+		}
+		head=head->next;
+		i++;
+	}
+	
+	cout<<"Sublist-1"<<endl;
+	display(h1);
+	cout<<endl;
+	cout<<"Sublist-2"<<endl;
+	display(h2);
+	cout<<endl;
+}
+
+int main() {
+	node* head = NULL;
+	
+	push(&head,1);
+	push(&head,2);
+	push(&head,3);
+	push(&head,4);
+	push(&head,5);
+	push(&head,6);
+	push(&head,7);
+	push(&head,8);
+	push(&head,9);
+	push(&head,10);
+	push(&head,11);
+	
+	cout<<"Original List"<<endl;
+	display(head);
+	cout<<endl;
+	
+	AlternatingSplit(head);
+	
+	return 0;
+}

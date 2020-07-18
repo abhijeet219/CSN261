@@ -1,0 +1,88 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+
+// Sample Input:
+// 66 65 271 335 65 270
+	
+// Sample Output
+// BABAABAAA
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<string> v(1000,"");
+
+
+int hashFunc(string s){
+	int n = s.length();
+	int res=0;
+	for(int i=0;i<n;i++){
+		res+=(int)(s[i]);	
+	}
+	return res;
+}
+
+int hashpos(string s){
+	int n=hashFunc(s);
+	if(v[n]==s)
+	return n;
+	int u=1;
+	while(v[n]!="" || n<254){
+		n+=u*u;
+		if(v[n]==s)
+		return n;
+		u++;
+	}
+	return n;
+}
+
+bool isPresent(string s){
+	int n=hashFunc(s);
+	while(n!=999){
+		if(v[n]==s){
+			return true;
+		}
+		n++;
+	}
+	return false;
+}
+
+void insert(string str){
+	int n=hashpos(str);
+	v[n]=str;
+}
+
+
+int main() {
+	string str;
+	// cin>>str;
+	int n = str.length(); 
+	for(int i=1;i<=255;i++){
+		string s(1,(char)(i));
+		v[i]=s;
+	}
+	
+	int Old=0,New=0;
+	cin>>Old;
+	cout<<v[Old];
+	cin>>New;
+	string s,c;
+	
+	while(cin){
+		if(v[New]==""){
+			s=v[Old];
+			s=s+c;
+		}
+		else
+			s=v[New];
+		cout<<s;
+		c=s[0];
+		insert(v[Old]+c);
+		Old=New;
+		
+		cin>>New;
+	}
+	
+	return 0;
+}

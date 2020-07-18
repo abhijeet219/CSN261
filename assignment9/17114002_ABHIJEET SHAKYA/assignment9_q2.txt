@@ -1,0 +1,88 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+#include <iostream>
+using namespace std;
+
+struct node{
+	int key;
+	node* right;
+	node* left;
+};
+
+struct node* newNode(int value){
+	struct node* temp = new node;
+	temp->key=value;
+	temp->left=NULL;
+	temp->right=NULL;
+	// cout<<value<<endl;
+	return temp;
+}
+
+struct node* insert(node* root ,int value){
+	if(root==NULL)
+	return newNode(value);
+	
+	if(root->key > value)
+	root->left=insert(root->left, value);
+	else if(root->key < value)
+	root->right=insert(root->right, value);
+	
+	return root;
+}
+
+void inOrder(node* root){
+	if(root!=NULL){
+		inOrder(root->left);
+		cout<<root->key<<" ";
+		inOrder(root->right);
+//		cout<<endl;
+	}
+}
+
+
+int main() {
+	//number of input values in tree
+	int n;
+	cin>>n;
+	int x;
+	//input values in tree
+	cin>>x;
+	struct node* root=NULL;
+	root=insert(root,x);
+	for(int i=0;i<n-1;i++){
+		cin>>x;
+		// cout<<x<<endl;
+		insert(root,x);
+	}
+	// cout<<(bool)(root==NULL)<<endl;
+	// inOrder(root);
+	int p,q;
+	cin>>p>>q;
+	while(cin){
+		if(p<root->key && q<root->key)
+		cout<<"HCA of "<<p<<" & "<<q<<" is "<<root->left->key<<endl;
+		else if(p>root->key && q>root->key)
+		cout<<"HCA of "<<p<<" & "<<q<<" is "<<root->right->key<<endl;
+		else if((p==root->left->key && q==root->right->key) || (q==root->left->key && p==root->right->key))
+		cout<<"HCA of "<<p<<" & "<<q<<" is "<<root->key<<endl;
+		else
+		cout<<"HCA of "<<p<<" & "<<q<<" Not found"<<endl;
+		cin>>p>>q;
+	}
+	return 0;
+}
+
+/*
+	Sample Input:
+	35 30 12 9 18 42 40 51
+	9 18
+	40 51
+	12 30
+	30 42
+		
+	Sample Output:
+	HCA of 9 and 18 is 30
+	HCA of 40 and 51 is 42
+	HCA of 12 and 30 is 30
+	HCA of 30 and 42 is 35
+*/

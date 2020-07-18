@@ -1,0 +1,72 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+#include <iostream>
+using namespace std;
+
+struct node{
+	int value;
+	struct node* next;
+	struct node* previous;
+};
+
+void push(node** front,node** rear, int new_data)
+{
+    struct node* new_node = new node;
+ 
+    new_node->value = new_data;
+	if(*front==NULL && *rear==NULL){
+		*front=new_node;	
+		*rear=new_node;
+	}else{
+		(*rear)->next = new_node;
+		new_node->previous = *rear;
+		*rear=new_node;
+		(*rear)->next=NULL;
+	} 
+}
+
+void display(node* head){
+	
+	while(head!=NULL){
+		cout<<head->value<<" ";
+		head=head->next;
+	}
+	cout<<endl;
+}
+
+void deque(node* front){
+	struct node* temp = new node;
+	temp=front;
+	
+	while(front->next!=NULL){
+		temp=front->next;
+		front->next=NULL;
+		front=temp;
+		front->previous=NULL;
+		display(front);
+		if(front->next==NULL)
+		cout<<"empty list"<<endl;
+	}
+}
+
+int main() {
+	struct node* front = NULL;
+	struct node* rear = NULL;
+	
+	cout<<"ENQUE Operations:"<<endl;
+	push(&front,&rear,1);
+	display(front);
+	push(&front,&rear,2);
+	display(front);
+	push(&front,&rear,3);
+	display(front);
+	push(&front,&rear,4);
+	display(front);
+	push(&front,&rear,5);
+	display(front);
+	cout<<endl;
+	
+	cout<<"DEQUE operations"<<endl;
+	deque(front);
+	return 0;
+}

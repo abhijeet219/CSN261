@@ -1,0 +1,41 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+#include <bits/stdc++.h>
+using namespace std;
+
+// function for finding minimum difference between two consicutive elements of the array
+
+void minDiff(int a[], int n){
+	int min = a[n-1]-a[0];
+	int u=0,v=0;
+	for(int i=1; i<n-2; i++){
+		if(a[i+1]-a[i] < min){
+			min = a[i+1]-a[i];
+			u=i;
+			v=i+1;
+		}
+	}
+	cout<<"four numbers are: "<<a[0]<<", "<<a[u]<<", "<<a[v]<<", "<<a[n-1];
+}
+
+int main(){
+	int n;
+	cin>>n;
+	int a[n];
+	
+	for(int i=0; i<n; i++){
+		cin>>a[i];
+	}
+	
+	sort(a,a+n);
+	minDiff(a,n);
+	
+	return 0;
+}
+
+
+
+
+
+
+
+

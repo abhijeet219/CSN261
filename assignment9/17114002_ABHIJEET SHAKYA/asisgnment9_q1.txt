@@ -1,0 +1,42 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+long long int sum_to_power_of_digit(long long int n,int c){
+
+	if(n<=0)
+	return 0;
+	
+	return (pow((n%10),c) + sum_to_power_of_digit(n/10,c));	
+} 
+
+int main() {
+	int j=0;
+	long long int n=1;
+	long long int N=n;
+	long long int sum=0;
+	int c=0;
+	
+	while(j<30){
+		N=n;
+		c=0;
+
+		while(n>0){
+			n/=10;
+			c++;
+		}
+		
+		if(N==sum_to_power_of_digit(N,c)){
+			cout<<N<<endl;
+			j++;
+		}
+		
+		n=N;
+		n++;
+	}
+	
+	return 0;
+}

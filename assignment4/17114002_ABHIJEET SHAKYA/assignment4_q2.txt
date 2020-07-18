@@ -1,0 +1,116 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+#include <iostream>
+using namespace std;
+
+struct node{
+	int value;
+	struct node* next;
+	struct node* previous;
+};
+
+void push(node** front,node** rear, int new_data)
+{
+    struct node* new_node = new node;
+ 
+    new_node->value = new_data;
+	if(*front==NULL && *rear==NULL){
+		*front=new_node;	
+		*rear=new_node;
+	}else{
+		(*rear)->next = new_node;
+		new_node->previous = *rear;
+		*rear=new_node;
+		(*rear)->next=NULL;
+	} 
+}
+
+void display(node* head){
+	
+	while(head!=NULL){
+		cout<<head->value<<" ";
+		head=head->next;
+	}
+	cout<<endl;
+}
+
+// void reverse_in_set_of_three(node** front){
+	
+// 	if((*front)->next!=NULL)
+// 	*front=(*front)->next;
+	
+// 	//swappint first three values;
+// 	if((*front)->next!=NULL){
+// 		int k = (*front)->next->value;
+// 		(*front)->next->value = (*front)->previous->value;
+// 		(*front)->previous->value = k;
+// 	}
+	
+// 	//swapping other values
+// 	while(*front!=NULL){
+// 		for(int j=0; j<3; j++){
+// 			if((*front)->next!=NULL)
+// 			*front = (*front)->next; 
+// 		}
+// 		//swapping
+// 		if((*front)->next!=NULL){
+// 			int k = (*front)->next->value;
+// 			(*front)->next->value = (*front)->previous->value;
+// 			(*front)->previous->value = k;
+// 		}
+// 	}
+// }
+
+void reverse_in_set_of_three(node* front){
+	int k=0;
+	if(front->next!=NULL)
+	front=(front)->next;
+	
+	//swappint first three values;
+	if((front)->next!=NULL){
+		k = (front)->next->value;
+		(front)->next->value = (front)->previous->value;
+		(front)->previous->value = k;
+	}
+	
+	//swapping other values
+	while(front->next!=NULL){
+		for(int j=0; j<3; j++){
+			if(front->next!=NULL)
+			front = (front)->next; 
+		}
+		//swapping
+		if((front)->next!=NULL){
+			k = (front)->next->value;
+			(front)->next->value = (front)->previous->value;
+			(front)->previous->value = k;
+		}
+	}
+}
+
+int main() {
+	struct node* front = NULL;
+	struct node* rear = NULL;
+	
+	push(&front,&rear,1);
+	push(&front,&rear,2);
+	push(&front,&rear,3);
+	push(&front,&rear,4);
+	push(&front,&rear,5);
+	push(&front,&rear,6);
+	push(&front,&rear,7);
+	push(&front,&rear,8);
+	push(&front,&rear,9);
+	push(&front,&rear,10);
+	push(&front,&rear,11);
+	
+	cout<<"INPUT List:"<<endl;
+	display(front);
+	
+	reverse_in_set_of_three(front);
+	
+	cout<<"OUTPUT List:"<<endl;
+	display(front);
+	
+	return 0;
+}

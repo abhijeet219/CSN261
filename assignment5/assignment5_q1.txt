@@ -1,0 +1,71 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+#include <iostream>
+#include<cstring>
+using namespace std;
+
+struct node{
+	char key;
+	node* left;
+	node* right;
+};
+
+struct node* newNode(char value){
+	struct node* temp = new node;
+	temp->key=value;
+	temp->left = NULL;
+	temp->right = NULL;
+	return temp;
+}
+
+struct node* insert(node*root, char data){
+	if(root==NULL)
+	return newNode(data);
+	
+	if(data<root->key)
+	root->left = insert(root->left, data);
+	else if(data>root->key)
+	root->right = insert(root->right, data);
+	
+	return root;
+}
+
+void inorder(struct node *root)
+{
+    if (root != NULL)
+    {
+        inorder(root->left);
+        cout<<root->key<<endl;
+        // printf("%s \n", root->key);
+        inorder(root->right);
+    }
+}
+
+int main() {
+	struct node* root = NULL;
+	string s;
+	string command;
+	
+	while(cin){
+		getline(cin,command);
+		
+		if(command=="Read String"){
+			cout<<"enter a character String"<<endl;
+			getline(cin,s);
+			root = insert(root, s[0]);
+			// root->key=10;
+			for(int i=0;i<s.length()-1;i++){
+				insert(root, s[i+1]);
+			}
+		}
+		
+		else if(command=="list"){
+			inorder(root);
+		}
+		
+		else if(command=="quit"){
+			return 0;		
+		}
+		
+	}	
+}

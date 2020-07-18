@@ -1,0 +1,161 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+#include <stdio.h>
+#include <stdlib.h>
+#include<iostream>
+#define ARRAY_SIZE(arr) sizeof(arr)/sizeof(arr[0])
+
+using namespace std;
+ 
+int ele[] = { 20, 8, 22, 4, 12, 10, 14 };
+ 
+struct node_t
+{
+    int data;
+ 
+    node_t* left;
+    node_t* right;
+};
+
+struct stack_t
+{
+    node_t*  base[ARRAY_SIZE(ele) + 1];
+    int      stackIndex;
+};
+ 
+node_t *pop(stack_t *st)
+{
+    node_t *ret = NULL;
+ 
+    if( st && st->stackIndex > 0 )
+    {
+        ret = st->base[st->stackIndex];
+        st->stackIndex--;
+    }
+ 
+    return ret;
+}
+ 
+void push(stack_t *st, node_t *node)
+{
+    if( st )
+    {
+        st->stackIndex++;
+        st->base[st->stackIndex] = node;
+    }
+}
+ 
+node_t *insert_node(node_t *root, node_t* node)
+{
+    node_t *pTraverse = root;
+    node_t *currentParent = root;
+ 
+    while(pTraverse)
+    {
+        currentParent = pTraverse;
+ 
+        if( node->data < pTraverse->data )
+        {
+            pTraverse = pTraverse->left;
+        }
+        else
+        {
+            pTraverse = pTraverse->right;
+        }
+    }
+ 
+    if( !root )
+    {
+        root = node;
+    }
+    else if( node->data < currentParent->data )
+    {
+        currentParent->left = node;
+    }
+    else
+    {
+        currentParent->right = node;
+    }
+ 
+    return root;
+}
+ 
+node_t* binary_search_tree(node_t *root, int keys[], int const size)
+{
+    int iterator;
+    node_t *new_node = NULL;
+ 
+    for(iterator = 0; iterator < size; iterator++)
+    {
+        new_node = (node_t *)malloc( sizeof(node_t) );
+ 
+        new_node->data   = keys[iterator];
+        new_node->left   = NULL;
+        new_node->right  = NULL;
+ 
+        root = insert_node(root, new_node);
+    }
+ 
+    return root;
+}
+ 
+node_t *k_smallest_element_inorder(stack_t *stack, node_t *root, int k)
+{
+    stack_t *st = stack;
+    node_t *pCrawl = root;
+ 
+    while( pCrawl )
+    {
+        push(st, pCrawl);
+        pCrawl = pCrawl->left;
+    }
+ 
+    while( pCrawl = pop(st) )
+    {
+        if( !--k )
+        {
+            st->stackIndex = 0;
+            break;
+        }
+ 
+        if( pCrawl->right )
+        {
+            pCrawl = pCrawl->right;
+            while( pCrawl )
+            {
+                push(st, pCrawl);
+                pCrawl = pCrawl->left;
+            }
+ 
+        }
+    }
+ 
+    return pCrawl;
+}
+ 
+int main(void)
+{
+    node_t* root = NULL;
+    stack_t stack = { {0}, 0 };
+    node_t *kNode = NULL;
+ 
+    int k;
+    cout<<"input k: ";
+    cin>>k;
+ 
+    root = binary_search_tree(root, ele, ARRAY_SIZE(ele));
+ 
+    kNode = k_smallest_element_inorder(&stack, root, k);
+ 
+    if( kNode )
+    {
+        printf("kth smallest elment for k = %d is %d", k, kNode->data);
+    }
+    else
+    {
+        printf("There is no such element");
+    }
+ 
+    getchar();
+    return 0;
+}

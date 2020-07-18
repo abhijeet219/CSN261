@@ -1,0 +1,91 @@
+// Abhijeet Shakya , ENROLLMENT NUMBER=17114002
+
+
+//Sample Input
+//BABAABAAA
+
+//Sample Output
+//<66> <65> <271> <335> <65> <270>
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<string> v(1000,"");
+
+
+int hashFunc(string s){
+	int n = s.length();
+	int res=0;
+	for(int i=0;i<n;i++){
+		res+=(int)(s[i]);	
+	}
+	return res;
+}
+
+int hashpos(string s){
+	int n=hashFunc(s);
+	if(v[n]==s)
+	return n;
+	int u=1;
+	while(v[n]!="" || n<254){
+		n+=u*u;
+		if(v[n]==s)
+		return n;
+		u++;
+	}
+	return n;
+}
+
+bool isPresent(string s){
+	int n=hashFunc(s);
+	while(n!=999){
+		if(v[n]==s){
+			return true;
+		}
+		n++;
+	}
+	return false;
+}
+
+void insert(string str){
+	int n=hashpos(str);
+	v[n]=str;
+}
+
+
+int main() {
+	string str;
+	cin>>str;
+	int n = str.length(); 
+	for(int i=1;i<=255;i++){
+		string s(1,(char)(i));
+		v[i]=s;
+	}
+	
+	// cout<<hashpos("BA")<<endl;
+	
+	int j=1;
+	char a,b;
+	string p="";
+	a=str[0];
+	p+=a;
+	while(j<n){
+		b=str[j];
+		string c(1,b);
+		if(isPresent(p+c))
+			p=p+c;
+		else{
+			cout<<"<"<<hashpos(p)<<">"<<" ";
+			insert(p+c);
+			p=c;	
+		}
+		// cout<<p<<" "<<c<<endl;
+		j++;
+	}
+	cout<<"<"<<hashpos(p)<<">"<<" ";
+	
+
+
+	return 0;
+}
